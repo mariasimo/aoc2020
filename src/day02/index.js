@@ -1,30 +1,42 @@
-function formatElement(el) {
-  const [ab, c, d] = el.replace(":", "").split(" ")
-  const [a, b] = ab.split("-")
-  return { a, b, c, d }
+const formatEl = el => {
+  const [conditions, pass] = el.split(":")
+  const password = pass.replace(" ", "")
+  const [range, letter] = conditions.split(" ")
+  const [int1, int2] = range.split("-")
+
+  return {
+    int1,
+    int2,
+    letter,
+    password,
+  }
 }
 
-const checkElement = el => {
-  const forEl = formatElement(el)
-  const pattern = forEl.c
-  const re = new RegExp(pattern, "g")
-  const matchResult = forEl.d.match(re) || []
-  return matchResult.length >= forEl.a && matchResult.length <= forEl.b
+const passwordChecker = password => {
+  const { password: pass, letter, int1: min, int2: max } = formatEl(password)
+  const letterOcurrences = pass.split("").filter(el => el === letter).length
+  return letterOcurrences >= min && letterOcurrences <= max
 }
 
-const checkElement2 = el => {
-  const forEl = formatElement(el)
-  const p1 = forEl.d.split("")[Number(forEl.a) - 1]
-  const p2 = forEl.d.split("")[Number(forEl.b) - 1]
-  return (
-    (p1 === forEl.c && p2 !== forEl.c) || (p1 !== forEl.c && p2 === forEl.c)
-  )
+const passwordChecker2 = password => {
+  const { password: pass, letter, int1, int2 } = formatEl(password)
+
+  const passLetters = pass.split("")
+  const firstIsAMatch =
+    passLetters[int1 - 1] === letter && passLetters[int2 - 1] !== letter
+  const secondIsAMatch =
+    passLetters[int1 - 1] !== letter && passLetters[int2 - 1] === letter
+
+  return firstIsAMatch || secondIsAMatch
 }
 
-const checkList = list =>
-  list.map(el => checkElement(el)).filter(Boolean).length
+const validatePasswords = (passwordList, passwordChecker) =>
+  passwordList.map(password => passwordChecker(password)).filter(el => el)
+    .length
 
-const checkList2 = list =>
-  list.map(el => checkElement2(el)).filter(Boolean).length
-
-module.exports = { formatElement, checkElement, checkList, checkList2 }
+module.exports = {
+  formatEl,
+  passwordChecker,
+  passwordChecker2,
+  validatePasswords,
+}

@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Francis Vega",
   "config": {
-    "day": "01"
+    "day": "02"
   },
   "scripts": {
     "test": "jest",

@@ -1,33 +1,25 @@
-const arraySum = x => x.reduce((acc, curr) => Number(acc) + Number(curr))
+const parseListItemsToNum = arr => arr.map(el => +el)
 
-const arrayMult = x => x.reduce((acc, curr) => Number(acc) * Number(curr))
-
-const duplaList = list =>
-  list.flatMap(n1 => list.map(n2 => [n1, n2].map(n => Number(n))))
-
-const triplaList = list => {
-  return list.flatMap(n1 =>
-    list.flatMap(n2 => list.map(n3 => [n1, n2, n3].map(n => Number(n))))
+const findCombinationsOfTwo = array =>
+  array.flatMap((x, _, arr) =>
+    arr.map(y => [x, y]).filter(el => new Set(el).size === el.length)
   )
-}
 
-const getTwoMagicNumbers = (list, sum) => {
-  return duplaList(list).find(([a, b]) => {
-    return a + b === sum
-  })
-}
+const findCombinationsOfThree = array =>
+  array.flatMap((x, _, arr) =>
+    arr
+      .flatMap(y => arr.map(z => [x, y, z]))
+      .filter(el => new Set(el).size === el.length)
+  )
 
-const getThreeMagicNumbers = (list, sum) => {
-  return triplaList(list).find(([a, b, c]) => {
-    return a + b + c === sum
-  })
-}
+const multiplyArr = arr => parseListItemsToNum(arr).reduce((ac, cu) => ac * cu)
+const sumArr = arr => parseListItemsToNum(arr).reduce((ac, cu) => ac + cu)
+const findAddends = (arr, total) => arr.find(el => sumArr(el) === total)
 
 module.exports = {
-  arraySum,
-  arrayMult,
-  duplaList,
-  triplaList,
-  getTwoMagicNumbers,
-  getThreeMagicNumbers,
+  findCombinationsOfTwo,
+  findCombinationsOfThree,
+  multiplyArr,
+  sumArr,
+  findAddends,
 }

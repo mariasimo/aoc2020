@@ -1,25 +1,42 @@
-const duplicateMap = (m, mult) => m.map(x => x.repeat(mult))
-const { fillArrayOfInt } = require("../utils")
+const travelThroughForest = (coords, slope, input) => {
+  const path = []
+  const distanceToEnd = input.length - 1
+  const extendedMap = extendMap(input, slope)
 
-const computeCoords = (arr, x, y) => {
-  const rows = arr.length
-  return fillArrayOfInt(rows)
-    .map((_, idx) => [x * idx, y * idx])
-    .filter(el => el[1] <= rows)
+  do {
+    coords = updatePosition(coords, slope)
+    path.push(checkPosition(coords, extendedMap))
+  } while (checkDistanceToEnd(coords, distanceToEnd))
+  return countTrees(path)
 }
 
-const generateNewMap = (arr, x, y) => {
-  const columns = arr[0].length
-  const coords = computeCoords(arr, x, y)
-  const totalColumnsNeeded = coords[coords.length - 1][0]
-  const totalMapsNeeded = Math.ceil(totalColumnsNeeded / columns)
-  return duplicateMap(arr, totalMapsNeeded)
+const countTrees = path => path.filter(el => el === "#").length
+
+const extendMap = (input, slope) => {
+  const rows = input.length
+  const columns = input[0].length
+  const timesToRepeatRows = Math.ceil((rows * slope.right) / columns)
+  return input.map(i => i.repeat(timesToRepeatRows))
 }
 
-const countTrees = (arr, x, y) => {
-  const newMap = generateNewMap(arr, x, y)
-  return newMap.map((_, idx) => _.split("")[x * idx]).filter(x => x === "#")
-    .length
+const updatePosition = (coords, slope) => {
+  return { top: coords.top + slope.bottom, left: coords.left + slope.right }
+}
+const checkPosition = (coords, input) => {
+  return input[coords.top][coords.left]
+}
+const checkDistanceToEnd = (coords, distanceToEnd) => {
+  return distanceToEnd - coords.top
 }
 
-module.exports = { duplicateMap, computeCoords, generateNewMap, countTrees }
+const multiplyValues = arr => arr.reduce((ac, cu) => ac * cu)
+
+module.exports = {
+  travelThroughForest,
+  checkDistanceToEnd,
+  checkPosition,
+  extendMap,
+  updatePosition,
+  countTrees,
+  multiplyValues,
+}

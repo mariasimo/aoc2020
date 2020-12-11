@@ -1,4 +1,4 @@
-const { sumAnswers, parseInput2, sumAnswers2 } = require("./index")
+const { sumAnswers, sumAnswers2 } = require("./index")
 const { readInput } = require("../utils")
 
 const input = readInput("day06")

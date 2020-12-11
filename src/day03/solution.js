@@ -16,7 +16,6 @@ const arr = [
   travelThroughForest(coords, { right: 1, bottom: 2 }, input),
 ]
 const part2Solution = multiplyValues(arr)
-console.log(arr)
 
 console.log(`Part 1 -> ${part1Solution}`)
 console.log(`Part 2 -> ${part2Solution}`)

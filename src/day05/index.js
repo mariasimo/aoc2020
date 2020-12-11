@@ -26,9 +26,26 @@ function calcHighest(arr) {
   return arr.sort((a, b) => b - a)[0]
 }
 
-function findSeat(arr) {
+function findHighestSeatID(arr) {
   const seats = arr.map(el => calcSeatId(findRow(el), findCol(el)))
   return calcHighest(seats)
 }
 
-module.exports = { findRow, findCol, calcSeatId, calcHighest, findSeat }
+function findMySeat(arr) {
+  const seats = arr.map(el => calcSeatId(findRow(el), findCol(el)))
+
+  const seatsWidthEmptyAdjacent = seats
+    .sort((a, b) => b - a)
+    .filter((el, i, arr) => arr[i - 1] - el > 1 || el - arr[i + 1] > 1)
+
+  return seatsWidthEmptyAdjacent[0] - 1
+}
+
+module.exports = {
+  findRow,
+  findCol,
+  calcSeatId,
+  calcHighest,
+  findHighestSeatID,
+  findMySeat,
+}

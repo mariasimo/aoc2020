@@ -4,10 +4,12 @@ const {
   findCol,
   calcSeatId,
   calcHighest,
-  findSeat,
+  findHighestSeatID,
+  findMySeat,
 } = require("./index")
 
 const input = readInputAsArray("day05", true)
+const numArr = []
 
 describe("Day 05", () => {
   describe("Part 1", () => {
@@ -23,13 +25,13 @@ describe("Day 05", () => {
     test("calcHighest should return highest num", () => {
       expect(calcHighest([1, 2, 3, 4, 5])).toBe(5)
     })
-    test("findSeat should return highest seatId of given input", () => {
-      expect(findSeat(input)).toBe(820)
+    test("findHighestSeatID should return highest seatId of given input", () => {
+      expect(findHighestSeatID(input)).toBe(820)
     })
   })
-  // describe("Part 2", () => {
-  //   test("should...", () => {
-  //     expect(foo(false)).toBe(false)
-  //   })
-  // })
+  describe("Part 2", () => {
+    test("findMySeat should return a number", () => {
+      expect(typeof findMySeat(numArr)).toBe("number")
+    })
+  })
 })
